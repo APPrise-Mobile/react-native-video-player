@@ -100,7 +100,7 @@ export default class VideoPlayer extends Component {
     this.state = {
       isStarted: props.autoplay,
       isPlaying: props.autoplay,
-      width: 200,
+      width: props.videoWidth,
       progress: 0,
       isMuted: props.defaultMuted,
       isControlsVisible: !props.hideControlsOnStart,
@@ -138,6 +138,14 @@ export default class VideoPlayer extends Component {
     if (this.controlsTimeout) {
       clearTimeout(this.controlsTimeout);
       this.controlsTimeout = null;
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.videoWidth !== nextProps.videoWidth) {
+      this.setState({
+        width: nextProps.videoWidth
+      });
     }
   }
 
