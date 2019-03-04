@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Image, ImageBackground, Platform, StyleSheet, TouchableOpacity, View, ViewPropTypes} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Video from 'react-native-video'; // eslint-disable-line
+import { Thumbnail } from 'react-native-thumbnail-video';
 
 const BackgroundImage = ImageBackground || Image; // fall back to Image if RN < 0.46
 
@@ -365,20 +366,24 @@ export default class VideoPlayer extends Component {
 
   renderThumbnail() {
     const { thumbnail, style, customStyles, ...props } = this.props;
-    return (
-      <BackgroundImage
-        {...props}
-        style={[
-          styles.thumbnail,
-          this.getSizeStyles(),
-          style,
-          customStyles.thumbnail,
-        ]}
-        source={thumbnail}
-      >
-        {this.renderStartButton()}
-      </BackgroundImage>
-    );
+    if (thumbnail) {
+      return (
+        <BackgroundImage
+          {...props}
+          style={[
+            styles.thumbnail,
+            this.getSizeStyles(),
+            style,
+            customStyles.thumbnail,
+          ]}
+          source={thumbnail}
+        >
+          {this.renderStartButton()}
+        </BackgroundImage>
+      );
+    } else {
+      <Thumbnail url={video} />
+    }
   }
 
   renderSeekBar(fullWidth) {
